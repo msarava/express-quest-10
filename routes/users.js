@@ -72,7 +72,7 @@ usersRouter.post('/checkCredentials', async (req, res) => {
     })
     .catch((error) => {
       // console.error(error);
-      res.status(421).send(error);
+      res.status(401).send(error);
     });
 });
 

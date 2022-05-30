@@ -27,7 +27,7 @@ const validate = (data, forCreation = true) => {
     lastname: Joi.string().max(255).presence(presence),
     city: Joi.string().allow(null, '').max(255),
     language: Joi.string().allow(null, '').max(255),
-    password: Joi.string().max(255).presence(presence),
+    password: Joi.string().min(8).max(255).presence(presence),
   }).validate(data, { abortEarly: false }).error;
 };
 
