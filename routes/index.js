@@ -7,6 +7,7 @@ const setupRoutes = (app) => {
   // User routes
   // TODO
   app.use('/api/users', usersRouter);
+  app.use('/api/auth', usersRouter);
 };
 
 module.exports = {

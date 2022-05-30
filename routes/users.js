@@ -48,6 +48,34 @@ usersRouter.post('/', (req, res) => {
     });
 });
 
+usersRouter.post('/checkCredentials', async (req, res) => {
+  const { email, password } = req.body;
+  // const hashedPassword = await User.hashPassword(password);
+
+  User.findByEmail(email)
+    .then((existingUserWithEmail) => {
+      if (!existingUserWithEmail)
+        return Promise.reject('NO USER WITH THIS EMAIL FOUND');
+      else return existingUserWithEmail;
+    })
+    .then((existingUserWithEmail) => {
+      return User.verifyPassword(
+        password,
+        existingUserWithEmail.hashedPassword
+      );
+    })
+    .then((verifiedUser) => {
+      if (!verifiedUser) return Promise.reject('PASSWORD DID NOT MATCH');
+    })
+    .then((validatedUserWithEmailAndPassword) => {
+      res.status(200).send('Authentication OK');
+    })
+    .catch((error) => {
+      // console.error(error);
+      res.status(421).send(error);
+    });
+});
+
 usersRouter.put('/:id', (req, res) => {
   let existingUser = null;
   let validationErrors = null;
